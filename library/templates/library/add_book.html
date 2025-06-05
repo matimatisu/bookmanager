@@ -1,0 +1,27 @@
+{% extends "library/base.html" %}
+{% block title %}本の追加{% endblock %}
+
+{% block content %}
+    <h1>本の追加</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">登録</button>
+        <a href="{% url 'book_list' %}" class="btn btn-secondary">戻る</a>
+        <p>
+            <label for="id_is_read">読了済み：</label>
+            {{ form.is_read }}
+        </p>
+        <p>
+            <label for="id_read_date">読了日：</label>
+            {{ form.read_date }}
+        </p>
+    </form>
+    
+    <div class="mb-3">
+        <label for="id_genre" class="form-label">ジャンル</label>
+        {{ form.genre }}
+    </div>
+
+{% endblock %}
+

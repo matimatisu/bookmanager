@@ -1,0 +1,33 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+  <h2>📊 読書統計</h2>
+  <p>総冊数：{{ total_books }}</p>
+  <p>読了：{{ read_books }}冊</p>
+  <p>未読：{{ unread_books }}冊</p>
+
+  <canvas id="readingChart" width="600" height="300"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('readingChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ months|safe }},
+        datasets: [{
+          label: '読了冊数/月',
+          data: {{ counts|safe }},
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
+{% endblock %}

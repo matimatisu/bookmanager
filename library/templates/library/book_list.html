@@ -1,0 +1,48 @@
+{% extends "library/base.html" %}
+
+{% block title %}本の一覧{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">本の一覧</h1>
+    
+    <form method="get" class="mb-3">
+        <div class="input-group">
+            <label class="input-group-text" for="search">🔍</label>
+            <input id="search" type="text" name="q" placeholder="タイトルで検索" value="{{ query }}" class="form-control">
+            <button type="submit" class="btn btn-primary">検索</button>
+        </div>
+    </form>
+
+    <p class="mb-2">フィルター：
+        <a href="?filter=all" class="{% if filter_status == 'all' %}fw-bold{% endif %}">すべて</a> |
+        <a href="?filter=read" class="{% if filter_status == 'read' %}fw-bold{% endif %}">読了済み</a> |
+        <a href="?filter=unread" class="{% if filter_status == 'unread' %}fw-bold{% endif %}">未読</a>
+    </p>
+
+    <div class = "mb-3">
+        <a href="{% url 'add_book' %}" class="btn btn-success">＋ 本を追加</a>
+    </div>
+
+    <ul class="list-group">
+        {% for book in books %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ book.title }}</strong> - {{ book.author }}
+                    {% if book.is_read %}
+                        <span class="badge bg-success">読了済み</span>
+                    {% else %}
+                        <span class="badge bg-secondary">未読</span>
+                    {% endif %}
+                </div>
+                <div class = "d-flex flex-column flex-sm-row gap-1">
+                    <a href="{% url 'toggle_read' book.id %}" class="btn btn-outline-secondary btn-sm">状態切替</a>
+                    <a href="{% url 'edit_book' book.id %}" class="btn btn-outline-primary btn-sm">編集</a>
+                    <a href="{% url 'delete_book' book.id %}" class="btn btn-outline-danger btn-sm">削除確認</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">本が登録されていません。</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

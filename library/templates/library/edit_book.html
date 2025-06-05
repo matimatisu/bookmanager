@@ -1,0 +1,18 @@
+{% extends "library/base.html" %}
+{% block title %}本の編集{% endblock %}
+
+{% block content %}
+    <h1>本の編集：{{ book.title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">保存</button>
+        <a href="{% url 'book_list' %}" class="btn btn-secondary">キャンセル</a>
+    </form>
+
+    <div class="mb-3">
+        <label for="id_genre" class="form-label">ジャンル</label>
+        {{ form.genre }}
+    </div>
+
+{% endblock %}
